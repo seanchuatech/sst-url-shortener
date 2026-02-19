@@ -26,6 +26,6 @@
     }
   },
   "files": {
-    "ignore": ["node_modules", ".sst", "dist"]
+    "ignore": ["node_modules", ".sst", "dist", "**/*sst-env.d.ts"]
   }
 }

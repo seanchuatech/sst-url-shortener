@@ -1,9 +1,26 @@
 import { AppError } from '@sst-url-shortener/core/errors'
 import { Hono } from 'hono'
 import { handle } from 'hono/aws-lambda'
+import { cors } from 'hono/cors'
 import { urlRouter } from './features/urls/urls.router'
+import { logger, withRequestLogger } from './logger'
 
-const app = new Hono()
+import type { LambdaContext, LambdaEvent } from 'hono/aws-lambda'
+
+type Bindings = {
+  event: LambdaEvent
+  context: LambdaContext
+}
+
+const app = new Hono<{ Bindings: Bindings }>()
+
+// Middleware
+app.use(cors())
+app.use(async (c, next) => {
+  // Attach logger to context if we wanted, but we have global logger
+  withRequestLogger(c.env?.event, c.env?.context) // initialize for pino-lambda
+  await next()
+})
 
 // Health check
 app.get('/api/health', (c) => {
@@ -16,6 +33,7 @@ app.route('/api', urlRouter)
 // Global error handler
 app.onError((err, c) => {
   if (err instanceof AppError) {
+    logger.warn({ err }, 'App Error handled')
     return c.json(
       {
         error: err.code,
@@ -26,13 +44,7 @@ app.onError((err, c) => {
   }
 
   // Unexpected errors
-  console.error(
-    JSON.stringify({
-      level: 'error',
-      message: err.message,
-      stack: err.stack,
-    }),
-  )
+  logger.error({ err }, 'Unexpected error occurred')
 
   return c.json(
     {

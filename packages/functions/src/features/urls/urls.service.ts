@@ -11,6 +11,7 @@ export const createShortUrl = async (input: CreateUrlInput) => {
   while (attempts < MAX_RETRIES) {
     const shortCode = generateShortCode()
     const now = new Date().toISOString()
+    const expiresAt = input.expiresIn ? Math.floor(Date.now() / 1000) + input.expiresIn : undefined
 
     try {
       await putUrl({
@@ -18,12 +19,14 @@ export const createShortUrl = async (input: CreateUrlInput) => {
         longUrl: input.url,
         createdAt: now,
         clicks: 0,
+        expiresAt,
       })
 
       return {
         shortCode,
         longUrl: input.url,
         createdAt: now,
+        expiresAt,
       }
     } catch (error: unknown) {
       // DynamoDB ConditionalCheckFailedException = code collision, retry
@@ -43,6 +46,12 @@ export const resolveShortUrl = async (shortCode: string) => {
 
   if (!record) {
     throw new NotFoundError(`Short URL '${shortCode}' not found`)
+  }
+
+  // Check Expiration
+  // record.expiresAt is in seconds. Date.now() is milliseconds.
+  if (record.expiresAt && record.expiresAt < Math.floor(Date.now() / 1000)) {
+    throw new NotFoundError(`Short URL '${shortCode}' has expired`)
   }
 
   // Fire-and-forget: increment clicks asynchronously
@@ -65,5 +74,6 @@ export const getUrlStats = async (shortCode: string) => {
     longUrl: record.longUrl,
     clicks: record.clicks,
     createdAt: record.createdAt,
+    expiresAt: record.expiresAt,
   }
 }
