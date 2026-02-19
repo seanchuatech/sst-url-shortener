@@ -1,0 +1,27 @@
+# sst
+.sst
+
+# dependencies
+node_modules
+
+# build
+dist
+
+# environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+!README.md

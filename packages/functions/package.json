@@ -1,0 +1,10 @@
+{
+  "name": "@sst-url-shortener/functions",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@sst-url-shortener/core": "*",
+    "hono": "^4.7.0",
+    "zod": "^3.24.0"
+  }
+}

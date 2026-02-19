@@ -1,0 +1,22 @@
+{
+  "name": "sst-url-shortener",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev": "npx sst dev",
+    "deploy": "npx sst deploy",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/node": "^22.0.0",
+    "sst": "^3.18.10",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
