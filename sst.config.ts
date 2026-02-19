@@ -8,7 +8,7 @@ export default $config({
       region: 'ap-southeast-1',
       providers: {
         aws: {
-          profile: 'sst-url-shortener',
+          region: 'us-east-1',
         },
       },
       removal: input?.stage === 'production' ? 'retain' : 'remove',
