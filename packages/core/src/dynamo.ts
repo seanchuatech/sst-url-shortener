@@ -7,7 +7,9 @@ import {
 } from '@aws-sdk/lib-dynamodb'
 import { Resource } from 'sst'
 
-const client = new DynamoDBClient({})
+const region = process.env.AWS_REGION ?? 'us-east-1'
+
+const client = new DynamoDBClient({ region })
 const docClient = DynamoDBDocumentClient.from(client)
 
 const tableName = () => Resource.UrlTable.name
