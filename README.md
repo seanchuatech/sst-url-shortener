@@ -82,7 +82,61 @@ npm test
 
 ## 🔌 API Endpoints
 
-- `POST /api/shorten` - Create a short URL.
-- `GET /api/:code` - Redirect to the original URL.
-- `GET /api/stats/:code` - Get click analytics.
-- `GET /api/health` - Check API status.
+### 1. Create Short URL
+
+**Request:**
+
+```bash
+curl -X POST https://<API_URL>/api/shorten \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com"}'
+```
+
+**Response:**
+
+```json
+{
+  "shortCode": "AbCdEf",
+  "longUrl": "https://example.com",
+  "createdAt": "2026-02-19T10:00:00.000Z"
+}
+```
+
+### 2. Redirect to Original URL
+
+**Request:**
+
+```bash
+curl -L -v https://<API_URL>/api/<SHORT_CODE>
+```
+
+**Result:** You will be redirected (302) to the original URL.
+
+### 3. Get Stats
+
+**Request:**
+
+```bash
+curl https://<API_URL>/api/stats/<SHORT_CODE>
+```
+
+**Response:**
+
+```json
+{
+  "shortCode": "AbCdEf",
+  "longUrl": "https://example.com",
+  "clicks": 42,
+  "createdAt": "2026-02-19T10:00:00.000Z"
+}
+```
+
+### 4. Health Check
+
+**Request:**
+
+```bash
+curl https://<API_URL>/api/health
+```
+
+**Response:** `{"status":"ok", "timestamp":"..."}`

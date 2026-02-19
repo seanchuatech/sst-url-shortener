@@ -5,11 +5,18 @@ import {
   PutCommand,
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb'
+import { NodeHttpHandler } from '@smithy/node-http-handler'
+import https from 'https'
 import { Resource } from 'sst'
 
 const region = process.env.AWS_REGION ?? 'us-east-1'
 
-const client = new DynamoDBClient({ region })
+const client = new DynamoDBClient({
+  region,
+  requestHandler: new NodeHttpHandler({
+    httpsAgent: new https.Agent({ family: 4 }),
+  }),
+})
 const docClient = DynamoDBDocumentClient.from(client)
 
 const tableName = () => Resource.UrlTable.name
