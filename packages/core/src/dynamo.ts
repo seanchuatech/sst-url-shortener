@@ -1,3 +1,4 @@
+import https from 'node:https'
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import {
   DynamoDBDocumentClient,
@@ -6,7 +7,6 @@ import {
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb'
 import { NodeHttpHandler } from '@smithy/node-http-handler'
-import https from 'https'
 import { Resource } from 'sst'
 
 const region = process.env.AWS_REGION ?? 'us-east-1'

@@ -18,6 +18,6 @@
       "@sst-url-shortener/functions/*": ["./packages/functions/src/*"]
     }
   },
-  "include": ["packages/*/src/**/*.ts", "sst.config.ts"],
+  "include": ["packages/*/src/**/*.ts", "sst.config.ts", "sst-env.d.ts"],
   "exclude": ["node_modules", ".sst"]
 }

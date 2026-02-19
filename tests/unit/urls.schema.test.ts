@@ -34,4 +34,24 @@ describe('createUrlSchema', () => {
     const result = createUrlSchema.safeParse({ url: longUrl })
     expect(result.success).toBe(false)
   })
+  it('validates URL with expiresIn', () => {
+    const result = createUrlSchema.safeParse({
+      url: 'https://example.com',
+      expiresIn: 3600,
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it('rejects localhost', () => {
+    const result = createUrlSchema.safeParse({ url: 'http://localhost:3000' })
+    expect(result.success).toBe(false)
+  })
+
+  it('rejects negative expiresIn', () => {
+    const result = createUrlSchema.safeParse({
+      url: 'https://example.com',
+      expiresIn: -1,
+    })
+    expect(result.success).toBe(false)
+  })
 })

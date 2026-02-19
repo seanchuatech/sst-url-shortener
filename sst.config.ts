@@ -27,7 +27,16 @@ export default $config({
     })
 
     // API Gateway + Lambda (Hono)
-    const api = new sst.aws.ApiGatewayV2('UrlApi')
+    const api = new sst.aws.ApiGatewayV2('UrlApi', {
+      transform: {
+        stage: {
+          defaultRouteSettings: {
+            throttlingBurstLimit: 50,
+            throttlingRateLimit: 100,
+          },
+        },
+      },
+    })
 
     api.route('$default', {
       handler: 'packages/functions/src/api.handler',

@@ -4,19 +4,18 @@
 /* deno-fmt-ignore-file */
 /* biome-ignore-all lint: auto-generated */
 
-declare module "sst" {
+declare module 'sst' {
   export interface Resource {
-    "UrlApi": {
-      "type": "sst.aws.ApiGatewayV2"
-      "url": string
+    UrlApi: {
+      type: 'sst.aws.ApiGatewayV2'
+      url: string
     }
-    "UrlTable": {
-      "name": string
-      "type": "sst.aws.Dynamo"
+    UrlTable: {
+      name: string
+      type: 'sst.aws.Dynamo'
     }
   }
 }
 /// <reference path="sst-env.d.ts" />
 
-import "sst"
-export {}
+import 'sst'
