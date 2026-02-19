@@ -4,9 +4,15 @@ export default $config({
   app(input) {
     return {
       name: 'sst-url-shortener',
+      home: 'aws',
+      region: 'ap-southeast-1',
+      providers: {
+        aws: {
+          profile: 'sst-url-shortener',
+        },
+      },
       removal: input?.stage === 'production' ? 'retain' : 'remove',
       protect: ['production'].includes(input?.stage),
-      home: 'aws',
     }
   },
   async run() {
