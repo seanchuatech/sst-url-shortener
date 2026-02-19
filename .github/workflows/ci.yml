@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  validation:
+    name: Lint, Typecheck & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint (Biome)
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test (Vitest)
+        run: npm run test

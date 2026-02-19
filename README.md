@@ -140,3 +140,25 @@ curl https://<API_URL>/api/health
 ```
 
 **Response:** `{"status":"ok", "timestamp":"..."}`
+
+## 🚢 Deployment & CI/CD
+
+This project includes GitHub Actions workflows for automated deployment.
+
+### 1. Push to GitHub
+
+Create a new repository on GitHub and push your code.
+
+### 2. Configure Secrets
+
+Go to **Settings > Secrets and variables > Actions** in your GitHub repository
+and add the following repository secrets:
+
+- `AWS_ACCESS_KEY_ID`: Your AWS Access Key.
+- `AWS_SECRET_ACCESS_KEY`: Your AWS Secret Key.
+
+### 3. Automatic Deployment
+
+- **Pull Requests:** Runs linting, typechecking, and tests (`ci.yml`).
+- **Push to main:** Deploys the application to the `production` stage
+  (`deploy.yml`).
